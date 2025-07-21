@@ -1,0 +1,7 @@
+camel-ai
+python-dotenv
+typer
+rich
+pytest
+fastapi
+uvicorn
