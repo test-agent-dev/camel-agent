@@ -1,0 +1,7 @@
+{
+  "mcp": {
+    "host": "localhost",
+    "port": 9000
+  },
+  "storage_path": "server"
+}
