@@ -21,7 +21,8 @@ class DevAgent(ChatAgent):
     """Main development agent orchestrating expert agents."""
 
     def __init__(self) -> None:
-        self.toolkit = MCPToolkit(f"http://{settings.MCP_HOST}:{settings.MCP_PORT}")
+        server_dict = {f"srv{i}": cfg for i, cfg in enumerate(settings.MCP_SERVERS)}
+        self.toolkit = MCPToolkit(config_dict={"mcpServers": server_dict})
         super().__init__(system_message="DevAgent", model=StubModel(ModelType.STUB))
         self.storage = StorageService()
         self.backend = BackendAgent()
