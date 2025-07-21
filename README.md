@@ -1,19 +1,40 @@
-# camel-agent
+# Camel DevAgent Demo
 
-This repository contains a simple example of a development agent built with **Camel-AI**.
+This project showcases a simple multi-agent system built with [Camel-AI](https://github.com/lightaime/camel), providing an interactive chat interface using Typer and Rich.
 
-The script `src/dev_agent.py` demonstrates:
-
-- Loading `mcp_config.json` and creating an `MCPToolKit` client.
-- Orchestrating three expert agents (`BackendAgent`, `FrontendAgent`, `DBAgent`).
-- Generating a Python project skeleton.
-- Uploading the project using a placeholder storage service.
-- Verifying the project by compiling the Python files.
-
-To run the demo:
+## Installation
 
 ```bash
-python3 src/dev_agent.py
+pip install -r requirements.txt
 ```
 
-The script will print the actions performed by each agent and the verification status.
+Create a `.env` file (see `.env.example`):
+
+```bash
+cp .env.example .env
+```
+
+## Usage
+
+Start an interactive session:
+
+```bash
+python -m devagent.main chat
+```
+
+Run the health check:
+
+```bash
+python -m devagent.main health
+```
+
+## .env format
+
+```
+MCP_HOST=localhost
+MCP_PORT=8080
+MCP_API_KEY=demo-key
+STORAGE_URL=remote://project
+```
+
+Each agent directory contains a short README describing its responsibilities.
