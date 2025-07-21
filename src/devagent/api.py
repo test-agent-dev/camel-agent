@@ -2,7 +2,7 @@
 
 from fastapi import FastAPI, Response
 
-from .config import settings
+from .config import config
 from .society import AISociety, run_society
 from .dev.agent import DevAgent
 
@@ -17,7 +17,7 @@ async def health() -> Response:
     # Attempt to create MCPToolkit using config; ignore connection errors.
     from camel.toolkits import MCPToolkit
     try:
-        toolkit = MCPToolkit(config_dict={"mcpServers": settings.MCP_SERVERS})
+        toolkit = MCPToolkit(config_dict={"mcpServers": config.mcp_servers})
         await toolkit.connect()
         await toolkit.disconnect()
     except Exception:

@@ -5,14 +5,12 @@ import os
 import subprocess
 
 from camel.agents import ChatAgent
-from camel.models.stub_model import StubModel
-from camel.types.enums import ModelType
 
 from ..backend.agent import BackendAgent
 from ..frontend.agent import FrontendAgent
 from ..db.agent import DBAgent
 from ..chat.agent import ChatAgent as UserChatAgent
-from ..config import settings
+from ..config import config
 from ..storage import StorageService
 from camel.toolkits import MCPToolkit
 
@@ -21,9 +19,10 @@ class DevAgent(ChatAgent):
     """Main development agent orchestrating expert agents."""
 
     def __init__(self) -> None:
-        server_dict = {f"srv{i}": cfg for i, cfg in enumerate(settings.MCP_SERVERS)}
+        server_dict = {f"srv{i}": cfg for i, cfg in enumerate(config.mcp_servers)}
         self.toolkit = MCPToolkit(config_dict={"mcpServers": server_dict})
-        super().__init__(system_message="DevAgent", model=StubModel(ModelType.STUB))
+        model = config.get_model_for_agent("DevAgent")
+        super().__init__(system_message="DevAgent", model=model)
         self.storage = StorageService()
         self.backend = BackendAgent()
         self.frontend = FrontendAgent()
@@ -58,7 +57,7 @@ class DevAgent(ChatAgent):
 
     def upload_project(self, project_path: str) -> None:
         """Upload project using the storage service."""
-        self.storage.upload(project_path, settings.STORAGE_URL)
+        self.storage.upload(project_path, config.storage_url)
 
     def verify(self, project_path: str) -> None:
         """Run a simple verification by compiling Python files."""

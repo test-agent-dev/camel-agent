@@ -11,7 +11,7 @@ from .frontend.agent import FrontendAgent
 from .db.agent import DBAgent
 from .chat.agent import ChatAgent as UserChatAgent
 from .society import AISociety, run_society
-from .config import settings
+from .config import config
 from camel.toolkits import MCPToolkit
 import asyncio
 
@@ -29,7 +29,7 @@ AGENT_MAP = {
 @app.command()
 def chat(task: str = "generate a hello world", turns: int = 1):
     """Start an interactive chat using an AI-Society."""
-    agents = [AGENT_MAP[name]() for name in settings.AGENTS if name in AGENT_MAP]
+    agents = [AGENT_MAP[name]() for name in config.agents if name in AGENT_MAP]
     society = AISociety(agents)
     console.print("[bold green]AI-Society chat started. Type 'exit' to quit.[/bold green]")
     while True:
@@ -45,8 +45,8 @@ def health():
     society = AISociety([DevAgent()])
     run_society(society, "ping")
     try:
-        toolkit = MCPToolkit(config_dict={"mcpServers": settings.MCP_SERVERS})
-        console.print(f"Connecting to {len(settings.MCP_SERVERS)} MCP servers...")
+        toolkit = MCPToolkit(config_dict={"mcpServers": config.mcp_servers})
+        console.print(f"Connecting to {len(config.mcp_servers)} MCP servers...")
         asyncio.run(toolkit.connect())
         asyncio.run(toolkit.disconnect())
     except Exception as exc:

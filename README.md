@@ -38,11 +38,18 @@ uvicorn devagent.api:app --reload
 
 ```
 DEFAULT_MODEL_PLATFORM_TYPE=STUB
-DEFAULT_MODEL_TYPE=GPT_4O_MINI
+DEFAULT_MODEL_TYPE=STUB
 MCP_SERVERS=[{"url": "http://localhost:8080", "api_key": "demo"}]
 AGENTS=DevAgent,BackendAgent,FrontendAgent
-MODELS=gpt-4o-mini
+# platform:model pairs separated by commas
+MODELS=stub:stub,openai:gpt-4o-mini,anthropic:claude-instant
+# optional JSON mapping of agents to models
+AGENT_MODEL_MAP={"DevAgent": "stub:stub", "BackendAgent": "openai:gpt-4o-mini"}
 STORAGE_URL=remote://project
 ```
+
+Add more models by appending to `MODELS`. Agents will automatically
+receive the configured model without further code changes thanks to the
+`ConfigLoader` utility.
 
 Each agent directory contains a short README describing its responsibilities.

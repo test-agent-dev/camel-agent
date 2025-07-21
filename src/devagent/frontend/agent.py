@@ -1,14 +1,15 @@
 """FrontendAgent module."""
 
 from camel.agents import ChatAgent
-from camel.models.stub_model import StubModel
-from camel.types.enums import ModelType
+from ..config import config
 
 class FrontendAgent(ChatAgent):
     """Expert agent responsible for frontend tasks."""
 
-    def __init__(self):
-        super().__init__(system_message="FrontendAgent", model=StubModel(ModelType.STUB))
+    def __init__(self, model=None):
+        if model is None:
+            model = config.get_model_for_agent("FrontendAgent")
+        super().__init__(system_message="FrontendAgent", model=model)
 
     def handle_request(self, request: str) -> str:
         """Handle frontend-related requests."""

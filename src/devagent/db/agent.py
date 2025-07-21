@@ -1,14 +1,15 @@
 """DBAgent module."""
 
 from camel.agents import ChatAgent
-from camel.models.stub_model import StubModel
-from camel.types.enums import ModelType
+from ..config import config
 
 class DBAgent(ChatAgent):
     """Expert agent responsible for database tasks."""
 
-    def __init__(self):
-        super().__init__(system_message="DBAgent", model=StubModel(ModelType.STUB))
+    def __init__(self, model=None):
+        if model is None:
+            model = config.get_model_for_agent("DBAgent")
+        super().__init__(system_message="DBAgent", model=model)
 
     def handle_request(self, request: str) -> str:
         """Handle database-related requests."""

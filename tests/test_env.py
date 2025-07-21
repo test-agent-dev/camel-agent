@@ -1,5 +1,5 @@
-from devagent.config import settings
+from devagent.config import config
 
 def test_env_loading():
-    assert isinstance(settings.AGENTS, list)
-    assert settings.MODELS
+    assert isinstance(config.agents, list)
+    assert config.models_spec
